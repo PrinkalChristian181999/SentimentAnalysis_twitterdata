@@ -1,7 +1,5 @@
-from bson.json_util import dumps
 import json
 from sentimentAnylize import processCrimeUpdate
-from dataCreation import generateData
 
 def watchCrimeUpdate(db):
     print(db) 

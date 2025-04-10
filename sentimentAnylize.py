@@ -2,6 +2,7 @@ from collections import deque
 from bson.json_util import dumps
 from textblob import TextBlob
 from cleaningPipeline import cleanText
+from modelTrain import processCrimeUpdateToTrain
 from mongoConnect import sentimentCollection
 
 def processCrimeUpdate(change):
@@ -16,6 +17,7 @@ def processCrimeUpdate(change):
         "sentimentAnalysis": sentiment
         }
         sentimentCollection.insert_one(anylises)
+        processCrimeUpdateToTrain(anylises)
         print("New crime reported anylises:",anylises)
         print("Watching for real-time crime updates...")
     elif change["operationType"] == "update":

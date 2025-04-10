@@ -4,7 +4,6 @@ from efficiencyThreading import UpdatingTweets, crimeUpdate, sentimentUpdate
 from graph import updateGraph
 
 if __name__ == "__main__":
-    updateGraph()
     # Start data generation and watchers
     crimeThread = threading.Thread(target=crimeUpdate)
     tweetThread = threading.Thread(target=UpdatingTweets)
@@ -14,6 +13,7 @@ if __name__ == "__main__":
     tweetThread.start()
     sentimentThread.start()
 
+    updateGraph()
 
     crimeThread.join()
     tweetThread.join()

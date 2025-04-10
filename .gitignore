@@ -84,3 +84,6 @@ pyrightconfig.json
 # Other temporary or backup files
 *.bak
 *.tmp
+bert_crime_sentiment
+crime_sentiment_model
+tfidf_vectorizer

@@ -1,4 +1,3 @@
-import threading
 import time
 from dataCreation import generateData
 from graph import watchSentimentUpdate
@@ -16,7 +15,7 @@ def crimeUpdate():
 
 def UpdatingTweets():
     time.sleep(5)
-    for i in range(100):
+    for i in range(1):
         generateData()
         time.sleep(1)
     
