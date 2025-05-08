@@ -1,58 +1,3 @@
-# # modelTrain.py
-# from mongoConnect import connectMongoDB
-# from sklearn.model_selection import train_test_split
-# from sklearn.feature_extraction.text import TfidfVectorizer
-# from sklearn.ensemble import RandomForestClassifier
-# from sklearn.metrics import classification_report
-# from cleaningPipeline import cleanText
-# import joblib
-
-# def load_training_data():
-#     """Load data from MongoDB's sentimentAnalysis collection"""
-#     db = connectMongoDB()
-#     collection = db["sentimentAnalysis"]
-#     data = list(collection.find({}, {"cleanedDescription": 1, "sentimentAnalysis.label": 1}))
-    
-#     texts = [doc["cleanedDescription"] for doc in data]
-#     labels = [doc["sentimentAnalysis"]["label"] for doc in data]
-    
-#     return texts, labels
-
-# def train_model():
-#     # Load data
-#     texts, labels = load_training_data()
-    
-#     # Split data
-#     X_train, X_test, y_train, y_test = train_test_split(
-#         texts, labels, test_size=0.2, random_state=42
-#     )
-    
-#     # Vectorize text
-#     vectorizer = TfidfVectorizer(max_features=1000)
-#     X_train_vec = vectorizer.fit_transform(X_train)
-#     X_test_vec = vectorizer.transform(X_test)
-    
-#     # Train classifier
-#     clf = RandomForestClassifier(n_estimators=100)
-#     clf.fit(X_train_vec, y_train)
-    
-#     # Evaluate
-#     y_pred = clf.predict(X_test_vec)
-#     print(classification_report(y_test, y_pred))
-    
-#     # Save model and vectorizer
-#     joblib.dump(clf, "crime_sentiment_model.pkl")
-#     joblib.dump(vectorizer, "tfidf_vectorizer.pkl")
-#     print("Model and vectorizer saved successfully")
-
-# def processCrimeUpdateToTrain(analysis):
-#     """Optional: Add new data points incrementally to retrain model"""
-#     # This can be implemented later for continuous learning
-#     pass
-
-# if __name__ == "__main__":
-#     train_model()
-# modelTrain.py
 from transformers import BertTokenizer, TFBertForSequenceClassification
 from sklearn.model_selection import train_test_split
 import tensorflow as tf
@@ -61,7 +6,7 @@ from mongoConnect import connectMongoDB
 from cleaningPipeline import cleanText
 
 # Load data from MongoDB
-def load_training_data():
+def loadTrainingData():
     db = connectMongoDB()
     collection = db["sentimentAnalysis"]
     data = list(collection.find({}, {"cleanedDescription": 1, "sentimentAnalysis.label": 1}))
@@ -77,9 +22,9 @@ def load_training_data():
 tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 model = TFBertForSequenceClassification.from_pretrained('bert-base-uncased', num_labels=3)
 
-def train_bert():
+def trainBERT():
     # Load data
-    texts, labels = load_training_data()
+    texts, labels = loadTrainingData()
     
     # Split data (stratified due to imbalance)
     X_train, X_test, y_train, y_test = train_test_split(
@@ -151,4 +96,4 @@ def processCrimeUpdateToTrain(analysis):
     print(f"Predicted sentiment: {['Negative', 'Neutral', 'Positive'][prediction]}")
 
 if __name__ == "__main__":
-    train_bert()
+    trainBERT()

@@ -15,7 +15,7 @@ def crimeUpdate():
 
 def UpdatingTweets():
     time.sleep(5)
-    for i in range(1):
+    for i in range(25):
         generateData()
         time.sleep(1)
     
